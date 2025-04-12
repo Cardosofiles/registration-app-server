@@ -9,7 +9,13 @@
     "target": "es2022",
     "strict": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "moduleResolution": "node16"
+    "moduleResolution": "node16",
+    "types": [
+      "vitest"
+    ],
+    "resolveJsonModule": true,
+    "isolatedModules": true
   }
 }

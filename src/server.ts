@@ -10,7 +10,12 @@ import {
 } from 'fastify-type-provider-zod'
 
 import { env } from './env'
+import { accessInviteLinkRoute } from './routes/access-invite-link-route'
 import { createProfileRoute } from './routes/create-profile-route'
+import { subscriberInvitesCountRoute } from './routes/invites-count-route'
+import { listRankingRoute } from './routes/list-ranking-route'
+import { subscriberInviteClicksRoute } from './routes/subscriber-invite-clicks-route'
+import { subscriberRankingPositionRoute } from './routes/subscriber-ranking-position-route'
 
 const server = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -37,6 +42,11 @@ server.register(fastifySwaggerUi, {
 })
 
 server.register(createProfileRoute)
+server.register(accessInviteLinkRoute)
+server.register(subscriberInviteClicksRoute)
+server.register(subscriberInvitesCountRoute)
+server.register(subscriberRankingPositionRoute)
+server.register(listRankingRoute)
 
 server.listen({ port: env.PORT }).then(() => {
   console.log('🔥 API HTTP server running 🚀')

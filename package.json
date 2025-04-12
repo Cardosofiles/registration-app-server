@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch --env-file=.env src/server.ts"
+    "dev": "tsx watch --env-file=.env src/server.ts",
+    "build": "tsup-node",
+    "test": "vitest",
+    "test:watch": "vitest --watch"
   },
   "keywords": [],
   "author": "",
@@ -13,14 +16,22 @@
     "@fastify/cors": "^11.0.1",
     "@fastify/swagger": "^9.4.2",
     "@fastify/swagger-ui": "^5.2.2",
+    "@types/ioredis": "^4.28.10",
+    "drizzle-orm": "^0.41.0",
     "fastify": "^5.2.2",
     "fastify-type-provider-zod": "^4.0.2",
+    "ioredis": "^4.30.0",
+    "postgres": "^3.4.5",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/node": "^22.14.0",
+    "@vitest/ui": "^3.1.1",
+    "drizzle-kit": "^0.30.6",
+    "tsup": "^8.4.0",
     "tsx": "^4.19.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.1"
   }
 }

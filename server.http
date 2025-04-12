@@ -2,6 +2,27 @@ POST http://localhost:3333/subscriptions
 Content-Type: application/json
 
 {
-  "name": "João Batista",
-  "email": "cardosofiles@outlook.com"
+  "name": "Elon Musk",
+  "email": "elon@outlook.com",
+  "referrer": "75998d64-aca7-4a3d-8167-20b14d232fc2"
 }
+
+###
+
+GET http://localhost:3333/invites/042e3501-3173-493c-9eaf-9b25f8d00753
+
+###
+
+GET http://localhost:3333/subscribers/042e3501-3173-493c-9eaf-9b25f8d00753/ranking/clicks
+
+###
+
+GET http://localhost:3333/subscribers/fb87c540-aac7-4e29-91af-caee3ce606d3/ranking/count
+
+###
+
+GET http://localhost:3333/subscribers/fb87c540-aac7-4e29-91af-caee3ce606d3/ranking/position
+
+###
+
+http://localhost:3333/ranking
