@@ -1,148 +1,189 @@
-# 📦 registration-app-server
+# Registration App Server
 
-Servidor de registro construído com Node.js, TypeScript e Drizzle ORM
+API para gerenciamento de convites, perfis de usuários e ranking de participantes em um sistema de inscrições.
 
-## ⚙️ Pré-requisitos
+## Descrição
 
--[Docker](https://www.docker.com/get-started) instalado -[Docker Compose](https://docs.docker.com/compose/install/) instalado
+Este projeto fornece uma API robusta para manipulação de convites, criação de perfis, rastreamento de cliques em links de convite e exibição de rankings de usuários. Ideal para sistemas de indicação, campanhas de marketing viral ou eventos que utilizam convites personalizados.
 
-## 🚀 Instruções de Instalação
+## Funcionalidades Principais
 
-### 1. Clone o Repositório
+- **Criação de Perfil:** Cadastro de novos usuários/perfis.
+- **Acesso via Link de Convite:** Permite acessar e registrar cliques em links de convite únicos.
+- **Contagem de Convites:** Consulta do número de convites enviados por um usuário.
+- **Ranking de Participantes:** Listagem e consulta da posição de usuários em rankings de indicações.
+- **Rastreamento de Cliques:** Consulta de cliques em links de convite por usuário.
 
-```bash
-git clone https://github.com/Cardosofiles/registration-app-server.git
-cd registration-app-server
+## Stack e Tecnologias Utilizadas
+
+- **Node.js** — Ambiente de execução JavaScript.
+- **Fastify** — Framework web rápido e eficiente.
+- **TypeScript** — Tipagem estática para maior robustez.
+- **Zod** — Validação de esquemas de dados.
+- **@fastify/cors** — Suporte a CORS.
+- **@fastify/swagger & swagger-ui** — Documentação automática da API.
+- **Dotenv** — Gerenciamento de variáveis de ambiente.
+- **(Banco de dados não especificado, configure conforme sua necessidade.)**
+
+## Estrutura de Pastas
 
 ```
+registration-app-server/
+├── src/
+│   ├── env.ts                # Configuração de variáveis de ambiente
+│   ├── server.ts             # Inicialização e configuração do servidor Fastify
+│   └── routes/               # Rotas da API organizadas por funcionalidade
+│       ├── access-invite-link-route.ts
+│       ├── create-profile-route.ts
+│       ├── invites-count-route.ts
+│       ├── list-ranking-route.ts
+│       ├── subscriber-invite-clicks-route.ts
+│       └── subscriber-ranking-position-route.ts
+├── package.json              # Dependências e scripts do projeto
+├── tsconfig.json             # Configuração do TypeScript
+└── README.md                 # Documentação do projeto
+```
 
-### 2. Configure as Variáveis de Ambiente
+### Explicação das Partes Relevantes
 
-Crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:
+- **src/server.ts:** Ponto de entrada da aplicação, configura middlewares, rotas e documentação.
+- **src/routes/:** Cada arquivo implementa um endpoint REST relacionado a convites, perfis ou ranking.
+- **src/env.ts:** Carrega e valida variáveis de ambiente necessárias para o funcionamento do servidor.
 
-````env
-# Banco de Dados
-POSTGRES_USER=usuario
-POSTGRES_PASSWORD=senha
-POSTGRES_DB=registro_db
-POSTGRES_HOST=postgres
-POSTGRES_PORT=5432
+## Instalação e Execução Local
 
-# Redis
-REDIS_HOST=redis
-REDIS_PORT=6379
+### Pré-requisitos
 
-# Configurações da Aplicação
-PORT=3000
-NODE_ENV=development
-``
+- [Node.js](https://nodejs.org/) >= 18.x
+- [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/)
+- Banco de dados (configure conforme sua necessidade)
 
-> **Nota:** Substitua `usuario` e `senha` pelos valores desejado.
+### Passos
 
-### 3. Crie o Arquivo `docker-compose.yml`
-Na raiz do projeto, crie um arquivo `docker-compose.yml` com o seguinte conteúdo:
+1. **Clone o repositório:**
 
-```yaml
-version: '3.8'
+   ```bash
+   git clone https://github.com/seu-usuario/registration-app-server.git
+   cd registration-app-server
+   ```
 
-services:
-  postgres:
-    image: postgres:15
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "${POSTGRES_PORT}:5432"
+2. **Instale as dependências:**
 
-  redis:
-    image: redis:latest
-    ports:
-      - "${REDIS_PORT}:6379"
+   ```bash
+   npm install
+   # ou
+   yarn install
+   ```
 
-  app:
-    build: .
-    ports:
-      - "${PORT}:3000"
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_HOST: ${POSTGRES_HOST}
-      POSTGRES_PORT: ${POSTGRES_PORT}
-      REDIS_HOST: ${REDIS_HOST}
-      REDIS_PORT: ${REDIS_PORT}
-      PORT: ${PORT}
-      NODE_ENV: ${NODE_ENV}
-    depends_on:
-      - postgres
-      - redis
-    volumes:
-      - .:/usr/src/app
-    command: npm run dev
+3. **Configure as variáveis de ambiente:**
 
-volumes:
-  postgres_data:
-``
+   - Crie um arquivo `.env` na raiz do projeto com as variáveis necessárias, por exemplo:
+     ```
+     PORT=3333
+     # Outras variáveis conforme src/env.ts
+     ```
 
-> **Nota:** Certifique-se de que o `Dockerfile` está configurado corretamente para construir a imagem da aplicaçã.
+4. **(Opcional) Execute migrações do banco de dados:**
 
-### 4. Inicie os Serviços
-Execute o seguinte comando para iniciar os serviços em segundo plan:
+   - Caso utilize um ORM ou migrations, execute o comando apropriado.
+
+5. **Inicie o servidor:**
+
+   ```bash
+   npm run dev
+   # ou
+   yarn dev
+   ```
+
+6. **Acesse a documentação da API:**
+   - Disponível em [http://localhost:3333/docs](http://localhost:3333/docs)
+
+## Executando Testes
+
+> **Nota:** Caso existam testes automatizados, utilize:
 
 ```bash
-docker-compose up -d
-``
+npm test
+# ou
+yarn test
+```
 
+Se não houver testes implementados, recomenda-se adicionar testes unitários e de integração para garantir a qualidade do código.
 
-### 5. Verifique os Logs
-Para verificar os logs da aplicaçã:
+## Exemplos de Uso dos Endpoints
 
-```bash
-docker-compose logs -f app
-``
+### Criar Perfil
 
+```http
+POST /profile
+Content-Type: application/json
 
-### 6. Acesse a Aplicação
-A aplicação estará disponível em `http://localhost:3000.
+{
+  "name": "João",
+  "email": "joao@email.com"
+}
+```
 
-## 🧪 Teste
+### Acessar Link de Convite
 
-Para executar os testes (assumindo que o script `test` está definido no `package.json):
+```http
+GET /invite/:inviteCode
+```
 
+### Consultar Ranking
 
-```bash
-docker-compose exec app npm test
-``
+```http
+GET /ranking
+```
 
+### Consultar Posição no Ranking
 
-## 🛠️ Comandos Úteis
-- Parar os servios:
+```http
+GET /ranking/:subscriberId
+```
 
-```bash
-  docker-compose down
-  ``
+### Consultar Cliques em Convite
 
-- Reiniciar os servios:
+```http
+GET /invite-clicks/:subscriberId
+```
 
-```bash
-  docker-compose restart
-  ``
+## Boas Práticas e Recomendações
 
-- Acessar o terminal do contêiner da aplicaão:
+- Utilize o TypeScript para garantir tipagem e evitar erros comuns.
+- Mantenha as rotas organizadas e documentadas.
+- Utilize variáveis de ambiente para configurações sensíveis.
+- Implemente testes automatizados para garantir a estabilidade.
+- Siga o padrão de commits e utilize Pull Requests para contribuições.
+- Consulte a documentação Swagger para detalhes dos endpoints.
 
-```bash
-  docker-compose exec app sh
-  ``
+## Contribuição
 
-
-## 📄 Liceça
-
-Este projeto está licenciado sob a [MIT License](LICESE).
+1. Fork este repositório.
+2. Crie uma branch para sua feature ou correção: `git checkout -b minha-feature`
+3. Commit suas alterações: `git commit -m 'feat: minha nova feature'`
+4. Push para o branch: `git push origin minha-feature`
+5. Abra um Pull Request.
 
 ---
 
-Se precisar de mais assistência ou tiver dúvidas específicas sobre a configuração, estou à disposição para ajudar!
-````
+Para dúvidas ou sugestões, abra uma issue no repositório.
+
+## 📫 Contato
+
+<div align="center">
+
+<a href="mailto:cardosofiles@outlook.com">
+  <img src="https://img.shields.io/badge/Email-0078D4?style=for-the-badge&logo=microsoftoutlook&logoColor=white" alt="Email"/>
+</a>
+<a href="https://www.linkedin.com/in/joaobatista-dev/" target="_blank">
+  <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
+</a>
+<a href="https://github.com/Cardosofiles" target="_blank">
+  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+</a>
+<a href="https://cardosofiles.dev/" target="_blank">
+  <img src="https://img.shields.io/badge/Portfólio-222222?style=for-the-badge&logo=about.me&logoColor=white" alt="Portfólio"/>
+</a>
+
+</div>
